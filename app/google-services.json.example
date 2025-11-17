@@ -1,0 +1,36 @@
+{
+  "project_info": {
+    "project_number": "123456789",
+    "project_id": "roomscanner-demo",
+    "storage_bucket": "roomscanner-demo.appspot.com"
+    "project_number": "YOUR_PROJECT_NUMBER",
+    "project_id": "your-project-id",
+    "storage_bucket": "your-project-id.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123456789:android:abcdef",
+        "mobilesdk_app_id": "1:YOUR_PROJECT_NUMBER:android:YOUR_APP_ID",
+        "android_client_info": {
+          "package_name": "com.roomscanner.app"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyDemoKeyReplace_With_Your_Key"
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "YOUR_API_KEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

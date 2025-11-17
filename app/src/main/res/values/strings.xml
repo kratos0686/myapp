@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Room Scanner</string>
+    <string name="welcome_message">Welcome to 3D Room Scanner</string>
+    <string name="app_description">Professional 3D room scanning with water damage assessment and Mitigate integration for restoration professionals.</string>
+    
+    <!-- Sections -->
+    <string name="scanning_section">Scanning</string>
+    <string name="export_section">Export &amp; Share</string>
+    <string name="analysis_section">Analysis &amp; Visualization</string>
+    
+    <!-- Buttons -->
+    <string name="start_scan">Start New Scan</string>
+    <string name="scan_description">Capture 3D point cloud with camera</string>
+    <string name="multi_room_scan">Multi-Room Scan</string>
+    <string name="multi_room_description">Scan and stitch multiple rooms</string>
+    <string name="export_scans">Export Scans (OBJ/PLY/DXF/IFC)</string>
+    <string name="export_formats">Export 3D</string>
+    <string name="export_to_mitigate">Export to Mitigate</string>
+    <string name="mitigate_export">Mitigate</string>
+    <string name="material_analysis">Material Analysis</string>
+    <string name="ar_visualization">AR Visualization</string>
+    <string name="ar_view">AR View</string>
+    <string name="settings">Settings</string>
+    <string name="quick_scan">Quick Scan</string>
+    
+    <!-- Permission Messages -->
+    <string name="permission_camera_required">Camera permission is required for 3D scanning</string>
+    <string name="permission_storage_required">Storage permission is required to save scans</string>
+    <string name="permission_location_required">Location permission is required for AR features</string>
+    <string name="permission_audio_required">Audio permission is required for voice guidance</string>
+    
+    <!-- Toast Messages -->
+    <string name="feature_coming_soon">This feature is coming soon!</string>
+    <string name="scan_started">Scan started</string>
+    <string name="scan_completed">Scan completed successfully</string>
+    <string name="export_success">Export completed successfully</string>
+    <string name="export_failed">Export failed. Please try again.</string>
+    
+    <!-- Firebase Setup -->
+    <string name="firebase_not_configured">Firebase not configured. Please add google-services.json</string>
+    <string name="cloud_sync_enabled">Cloud sync enabled</string>
+    <string name="cloud_sync_disabled">Cloud sync disabled</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Room Scanner</string>
+    <string name="scan_room">Scan Room</string>
+    <string name="view_scans">View Scans</string>
+    <string name="settings">Settings</string>
+    <string name="sync">Sync</string>
+    <string name="add_note">Add Note</string>
+    <string name="generate_plan">Generate Drying Plan</string>
+    <string name="add_note">Add Note</string>
+    <string name="arcore_required">ARCore is required for this app</string>
+    <string name="camera_permission_required">Camera permission is required for scanning</string>
+</resources>
