@@ -6,15 +6,24 @@
 
   # Use https://search.nixos.org/packages to find packages
   packages = [
-    # pkgs.go
-    # pkgs.python311
-    # pkgs.python311Packages.pip
-    # pkgs.nodejs_20
-    # pkgs.nodePackages.nodemon
+    pkgs.android-sdk
+    pkgs.openjdk-21_0_9
+    pkgs.gradle_8_1_0
+  ];
+
+  # Configure the Android SDK
+  android-sdk.packages = with pkgs.android-sdk-licenses; [
+    "platforms;android-34"
+    "build-tools;34.0.0"
+    "cmdline-tools;latest"
   ];
 
   # Sets environment variables in the workspace
-  env = {};
+  env = {
+    ANDROID_HOME = "${pkgs.android-sdk}/libexec/android-sdk";
+    JAVA_HOME = "${pkgs.openjdk-21_0_9}";
+  };
+
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
