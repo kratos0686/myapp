@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Room Scanner</string>
     <string name="welcome_message">Welcome to 3D Room Scanner</string>
@@ -40,16 +41,13 @@
     <string name="firebase_not_configured">Firebase not configured. Please add google-services.json</string>
     <string name="cloud_sync_enabled">Cloud sync enabled</string>
     <string name="cloud_sync_disabled">Cloud sync disabled</string>
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Room Scanner</string>
+
+    <!-- Additional Strings -->
     <string name="scan_room">Scan Room</string>
     <string name="view_scans">View Scans</string>
-    <string name="settings">Settings</string>
     <string name="sync">Sync</string>
     <string name="add_note">Add Note</string>
     <string name="generate_plan">Generate Drying Plan</string>
-    <string name="add_note">Add Note</string>
     <string name="arcore_required">ARCore is required for this app</string>
     <string name="camera_permission_required">Camera permission is required for scanning</string>
 </resources>
