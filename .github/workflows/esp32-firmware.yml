@@ -1,0 +1,44 @@
+name: ESP32 firmware
+
+on:
+  push:
+    branches: [master]
+    tags: ["fw-v*"]
+    paths: ["firmware/esp32-cam/**", ".github/workflows/esp32-firmware.yml"]
+  pull_request:
+    paths: ["firmware/esp32-cam/**", ".github/workflows/esp32-firmware.yml"]
+  schedule:
+    - cron: "17 6 * * 1"   # weekly: catches breakage from upstream DFRobot_AXP313A changes
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # needed to publish a release on tag pushes
+    defaults:
+      run:
+        working-directory: firmware/esp32-cam
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install platformio
+      - run: pio pkg update
+      - name: Build (version from tag on releases)
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/fw-v* ]]; then
+            export PLATFORMIO_BUILD_FLAGS="-DFW_VERSION=\\\"${GITHUB_REF_NAME#fw-v}\\\""
+          fi
+          pio run
+          cp .pio/build/*/firmware.bin firmware.bin
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esp32-cam-firmware
+          path: firmware/esp32-cam/firmware.bin
+      - name: Publish release asset
+        if: startsWith(github.ref, 'refs/tags/fw-v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: firmware/esp32-cam/firmware.bin
