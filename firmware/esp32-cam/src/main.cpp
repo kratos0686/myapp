@@ -25,18 +25,39 @@ DFRobot_AXP313A axp;
 #define Y8_GPIO_NUM    46
 #define Y9_GPIO_NUM    48
 
-static esp_err_t stream_handler(httpd_req_t *req) {
+static volatile bool streaming = false;
+
+static void stream_task(void *arg) {
+  httpd_req_t *req = (httpd_req_t *)arg;
   httpd_resp_set_type(req, "multipart/x-mixed-replace;boundary=frame");
   char hdr[64];
   while (true) {
     camera_fb_t *fb = esp_camera_fb_get();
-    if (!fb) return ESP_FAIL;
+    if (!fb) break;
     size_t n = snprintf(hdr, sizeof hdr,
       "\r\n--frame\r\nContent-Type: image/jpeg\r\nContent-Length: %u\r\n\r\n", (unsigned)fb->len);
     esp_err_t r = httpd_resp_send_chunk(req, hdr, n);
     if (r == ESP_OK) r = httpd_resp_send_chunk(req, (const char *)fb->buf, fb->len);
     esp_camera_fb_return(fb);
     if (r != ESP_OK) break;
+    vTaskDelay(1);
+  }
+  httpd_resp_send_chunk(req, nullptr, 0);
+  httpd_req_async_handler_complete(req);
+  streaming = false;
+  vTaskDelete(nullptr);
+}
+
+// Hands the request to a worker task so the HTTP server task stays free for other requests.
+static esp_err_t stream_handler(httpd_req_t *req) {
+  if (streaming) return httpd_resp_send_err(req, HTTPD_503_SERVICE_UNAVAILABLE, "Stream already active");
+  httpd_req_t *copy = nullptr;
+  if (httpd_req_async_handler_begin(req, &copy) != ESP_OK) return ESP_FAIL;
+  streaming = true;
+  if (xTaskCreate(stream_task, "stream", 4096, copy, 5, nullptr) != pdPASS) {
+    streaming = false;
+    httpd_req_async_handler_complete(copy);
+    return ESP_FAIL;
   }
   return ESP_OK;
 }
@@ -120,6 +141,8 @@ void setup() {
   Serial.printf("\nhttp://%s/stream   http://%s/photo\n", ip.c_str(), ip.c_str());
 
   httpd_config_t cfg = HTTPD_DEFAULT_CONFIG();
+  cfg.max_open_sockets = 7;
+  cfg.lru_purge_enable = true;
   httpd_handle_t srv = nullptr;
   if (httpd_start(&srv, &cfg) == ESP_OK) {
     httpd_uri_t s = {"/stream", HTTP_GET, stream_handler, nullptr};
