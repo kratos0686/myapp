@@ -13,6 +13,7 @@
 
 // Mozilla CA bundle linked in by the Arduino-ESP32 core
 extern const uint8_t rootca_crt_bundle_start[] asm("_binary_x509_crt_bundle_start");
+extern const uint8_t rootca_crt_bundle_end[] asm("_binary_x509_crt_bundle_end");
 
 static bool parseVersion(const char *s, int v[3]) {
   v[0] = v[1] = v[2] = 0;
@@ -36,7 +37,7 @@ void otaCheckAndUpdate() {
   }
 
   WiFiClientSecure client;
-  client.setCACertBundle(rootca_crt_bundle_start);
+  client.setCACertBundle(rootca_crt_bundle_start, rootca_crt_bundle_end - rootca_crt_bundle_start);
 
   HTTPClient http;
   http.useHTTP10(true);                  // no chunked encoding, so the stream parses directly
